@@ -22,7 +22,42 @@ chrome.tabs.onActivated.addListener((activateInfo) => {
 var reportReloader = {};
 var reloadingQueue = {};
 
+const setFullScreenOn = (tabId) => {
+  
+  chrome.tabs.executeScript(tabId, {
+    code: "document.querySelector('#navBar').setAttribute('style', 'display: initial')"
+  });
+
+  chrome.tabs.executeScript(tabId, {
+    code: "document.querySelector('#contentMain > navigation-pane-v2').setAttribute('style', 'display: flex')"
+  });
+
+  chrome.tabs.executeScript(tabId, {
+    code: "document.querySelector('#pvExplorationHost > article').setAttribute('style', 'display: initial')"
+  });
+
+}
+
+const setFullScreenOff = (tabId) => {
+  
+  chrome.tabs.executeScript(tabId, {
+    code: "document.querySelector('#navBar').setAttribute('style', 'display: none')"
+  });
+
+  chrome.tabs.executeScript(tabId, {
+    code: "document.querySelector('#contentMain > navigation-pane-v2').setAttribute('style', 'display: none')"
+  });
+
+  chrome.tabs.executeScript(tabId, {
+    code: "document.querySelector('#pvExplorationHost > article').setAttribute('style', 'display: none')"
+  });
+
+}
+
 reportReloader.enqueueTabToReload = (params) => {
+
+  setFullScreenOff(params.tab.id);
+
   reportReloader.removeFromReloadQueue(params.tab);
 
   if (params.interval < 1)
@@ -47,6 +82,7 @@ reportReloader.removeFromReloadQueue = (tabOptions) => {
       text: '',
       tabId: tabOptions.id
     });
+    setFullScreenOn(params.tab.id);
   }
 
   return params;
@@ -61,10 +97,6 @@ const reloadReport = (tabId) => {
 
   chrome.tabs.executeScript(tabId, {
     code: "document.getElementsByClassName('refresh')[0].click()"
-  });
-
-  chrome.tabs.executeScript(tabId, {
-    code: "document.getElementsByClassName('fullScreenNext floatingViewBtn')[0].click()"
   });
 
   params.nextRefresh = new Date().getTime() + (params.interval * 1000);
