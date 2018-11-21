@@ -63,6 +63,10 @@ const reloadReport = (tabId) => {
     code: "document.getElementsByClassName('refresh')[0].click()"
   });
 
+  chrome.tabs.executeScript(tabId, {
+    code: "document.getElementsByClassName('fullScreenNext floatingViewBtn')[0].click()"
+  });
+
   params.nextRefresh = new Date().getTime() + (params.interval * 1000);
   updateCountdown(true)
 }

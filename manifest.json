@@ -1,6 +1,6 @@
 {
     "name": "PowerBI Report AutoRefresh",
-    "version": "0.2",
+    "version": "1.0",
     "description": "This extension will help you to reload your power bi reports",
     "permissions": ["tabs","background","activeTab", "storage"],
     "background": {

@@ -18,8 +18,7 @@ const start = () => {
         const reportReloader = chrome.extension.getBackgroundPage().reportReloader
 
         chrome.storage.sync.get(['interval'], (data) => {
-            console.log("AAAA");
-            
+           
             const params = {
                 tab: tab,
                 interval: data.interval
